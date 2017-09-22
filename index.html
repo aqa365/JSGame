@@ -10,55 +10,63 @@
 
         var g = new YFGame( '#idcanvas' );  
 
-        var pender = {
+        var paddle = {
             x:200,
-            y:100,
+            y:150,
             speed:5,
+            img:g.loadImg( 'images/1.jpg' ),
             moveLeft:function(){
-                this.x -= this.speed;
-                g.update();       
+                this.x -= this.speed;   
             },
             moveRight:function(){
-                this.x += this.speed;
-                g.update();     
+                this.x += this.speed; 
             },
-            draw:function(){
-                g.drawImg( 'images/1.jpg' , this.x , this.y );                
-            }
-
         }     
 
         var bullet = {
-            x:150,
-            y:100,
-            speed:10,
-            move:function(){
-
+            x:270,
+            y:120,
+            speedX:10,
+            speedY:10,
+            fired:false,
+            img:g.loadImg( 'images/fire.png' ),
+            fire:function(){
+                this.fired = true;
             },
-            draw:function(){
-                //g.drawImg( 'images/1.jpg' , this.x , this.y );
-            }
+            move:function(){
+                if( !this.fired )return;
+                
+                if( this.x<=0||this.x>=400 ){
+                    this.speedX*=-1;
+                }
+                if( this.y<=0||this.y>200 ){
+                    this.speedY*=-1;
+                }
+
+                this.x+=this.speedX;
+                this.y+=this.speedY;
+            },
         }
 
         // events
         g.registerKey( 'a' ,function(){ 
-            pender.moveLeft();
+            paddle.moveLeft();
         } );
 
         g.registerKey( 'd' ,function(){            
-            pender.moveRight();
+            paddle.moveRight();
         } );
 
-        // update
-        g.update = function(){
-            
-            g.context.clearRect( 0 , 0 , g.canvas.width , g.canvas.height );
+        g.registerKey( 'f' ,function(){
+            bullet.fire();
+        })
 
-            pender.draw();
-            bullet.draw();
+        g.draw = function(){
+
+            g.drawImg( paddle ).drawImg( bullet );
+            bullet.move();
 
         }
-        
 
         log( g );
         

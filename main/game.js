@@ -48,15 +48,15 @@
 
                         params.actions[ key ]();   
                         
-                        //that.update();
-
                     }
 
                 }
 
-              
+                that.context.clearRect( 0 , 0 , that.canvas.width , that.canvas.height );
+
+                that.draw();
                 
-            } , 1000/30 );
+            } , 1000/60 );
 
             // events
             window.addEventListener( 'keydown' , function( e ){
@@ -83,21 +83,26 @@
 
         },
 
-        drawImg:function( path , x , y ){
-
-            var that = this;
+        loadImg:function( path ){
 
             var img = new Image();
             img.src = path;
-            img.onload = function(){
-                that.context.drawImage( img , x , y );
-            }
-
             return img;
 
         },
 
-        update:function(){}
+        drawImg:function( obj ){
+
+            this.context.drawImage( obj.img , obj.x , obj.y );
+
+            return this;
+        },
+
+        // 在外部重写draw function
+        draw:function( ){
+
+        }
+
     }
 
 
