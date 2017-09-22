@@ -1,8 +1,67 @@
 <html>
     <head><title></title></head>
     <body>
-
+        <canvas id="idcanvas" width="400px" height="200px" style="border:1px solid #333"></canvas>
     </body>
+    <script src="main/game.js"></script>
     <script type="text/javascript">
+
+        var log = console.log.bind( console );
+
+        var g = new YFGame( '#idcanvas' );  
+
+        var pender = {
+            x:200,
+            y:100,
+            speed:5,
+            moveLeft:function(){
+                this.x -= this.speed;
+                g.update();       
+            },
+            moveRight:function(){
+                this.x += this.speed;
+                g.update();     
+            },
+            draw:function(){
+                g.drawImg( 'images/1.jpg' , this.x , this.y );                
+            }
+
+        }     
+
+        var bullet = {
+            x:150,
+            y:100,
+            speed:10,
+            move:function(){
+
+            },
+            draw:function(){
+                //g.drawImg( 'images/1.jpg' , this.x , this.y );
+            }
+        }
+
+        // events
+        g.registerKey( 'a' ,function(){ 
+            pender.moveLeft();
+        } );
+
+        g.registerKey( 'd' ,function(){            
+            pender.moveRight();
+        } );
+
+        // update
+        g.update = function(){
+            
+            g.context.clearRect( 0 , 0 , g.canvas.width , g.canvas.height );
+
+            pender.draw();
+            bullet.draw();
+
+        }
+        
+
+        log( g );
+        
+
     </script>
 </html>
