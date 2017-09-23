@@ -35,7 +35,6 @@
 
                 for( var i in this.coordinates ){
                     var item = this.coordinates[ i ];
-                    log( new Brick( { x:item[ 0 ] , y:item[ 1 ] , img:this.img  } ) );
                     bricks.push( new Brick( { x:item[ 0 ] , y:item[ 1 ] , img:this.img  } ) );
                 }
 

@@ -2,9 +2,9 @@
 
     var g = new YFGame( '#idcanvas' );  
     
-    var paddle = new Paddle( { x:120 , y:250 , speed:7 , img:g.loadImg( 'images/1.jpg' ) } );
+    var paddle = new Paddle( { x:120 , y:250 , speed:5 , img:g.loadImg( 'images/1.jpg' ) } );
 
-    var bullet = new Bullet( { x:190 , y:219 , speedX:8 , speedY:8 , img:g.loadImg( 'images/fire.png' ) } );
+    var bullet = new Bullet( { x:190 , y:219 , speedX:7 , speedY:12 , img:g.loadImg( 'images/fire.png' ) } );
 
     var brickImg = g.loadImg( 'images/brick.png' );
     var jiange = 27,x = 90;
@@ -27,6 +27,17 @@
 
         bullet.fire();
 
+    })
+
+    g.registerKey( 'p' ,function(){
+        g.stop();
+    } )
+
+    window.addEventListener( 'keydown' ,function( e ){
+        if( e.key=='o'){
+            g.start();
+        }
+      
     })
 
     g.update = function(){

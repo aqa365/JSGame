@@ -4,6 +4,8 @@
         <canvas id="idcanvas" width="400px" height="300px" style="border:1px solid #333"></canvas>
         <br/><br/>
         <input type="range" id="rangeFps"/><span id="fpsValue"></span>
+        <br/>
+        <input type="checkbox" id="verticalSync" value="true" checked/><label for="verticalSync">垂直同步</label>
     </body>
     <script src="main/common.js"></script>
     <script src="main/game.js"></script>
@@ -14,15 +16,28 @@
     <script type="text/javascript">
         var range = el( '#rangeFps' );
         var fpsValue = el( '#fpsValue' );
+        var verticalSync = el( '#verticalSync' );
 
         range.value = window.fps;
         fpsValue.innerText = window.fps + "fps";
 
+        // 改变帧率
         range.addEventListener( 'input' , function(){
 
             if( this.value <= 0 ) return;
             fpsValue.innerText = (window.fps = this.value) + 'fps';
             
+        } )
+
+        // 垂直同步
+        verticalSync.addEventListener( 'change' ,function(){
+            if( !this.checked ){
+                range.disabled = false;  
+                window.fps = 0;          
+                return;
+            }
+            window.fps=range.value;
+            range.disabled = true;
         } )
     </script>
 </html>

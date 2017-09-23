@@ -33,9 +33,12 @@
 
         this.context.clearRect( 0 , 0 , this.canvas.width , this.canvas.height );
 
+        
         this.update.call( this );
 
         this.draw.call( this );
+
+        this.context.fillText( FPS + "fps" , 2 , 10);
 
     },
 
@@ -43,24 +46,36 @@
     initFps = function(){
 
         var that = this;
-
+        
         if( this.fps != window.fps ){
+            
+            this.fps = window.fps;
 
-            clearInterval( this.innterval );          
-
-            this.innterval = setInterval( function(){
-
-                if( initFps.call( that ) ) return;
-
-                listener.call( that );
-
-            } , 1000 / ( this.fps = window.fps ) );
+            createInterval.call( this );
 
             return true;
         }
 
         return false;
-    }
+    },
+
+    //创建定时器
+    createInterval = function(){
+
+        clearInterval( this.interval );
+        var that = this;
+        this.interval = setInterval( function(){
+
+            that.calaFps +=1;
+
+            if( initFps.call( that ) ) return;
+
+            listener.call( that );
+
+        } , window.fps == 0 ? 0 : 1000/window.fps );
+    },
+    // 用来记录每秒帧率
+    FPS = 0
 
     YFGame.fn = YFGame.prototype = {
 
@@ -73,7 +88,11 @@
             this.canvas = canvas;
             this.context = context;
 
-            this.fps = window.fps = window.fps || 60; // 帧数
+            this.verticalSync = true; // 垂直同步
+
+            this.calaFps = 0; // 计算帧率
+
+            this.fps = window.fps = window.fps || 60;
 
             this.params = {
 
@@ -85,14 +104,14 @@
             var that = this;
             var params = this.params;
 
-            // 监听器
-            this.innterval = setInterval( function(){
-                
-                if( initFps.call( that ) ) return;
-                    
-                listener.call( that );
-                
-            } , 1000/window.fps );
+            // 创建定时器
+            createInterval.call( this );
+
+            // 监控fps
+            setInterval( function(){
+                FPS = that.calaFps;
+                that.calaFps = 0;
+            }, 1000 )
 
             // events
             window.addEventListener( 'keydown' , function( e ){
@@ -144,14 +163,19 @@
 
 
         },
-        
-        // 在外部重写draw、update function\
-        update:function(){
-
+        // 开始
+        start:function(){
+            createInterval.call( this );
         },
-        draw:function( ){
 
-        }
+        // 暂停
+        stop:function(){
+            clearInterval( this.interval );         
+        },
+
+        // 在外部重写draw、update function\
+        update:function(){},
+        draw:function(){}
 
     }
 
