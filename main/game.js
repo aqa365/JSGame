@@ -14,6 +14,52 @@
 
     var YFGame = function( selector ){
         return this.init( selector );
+    },
+
+    // 每一帧
+    listener = function(){
+
+        for (var i in  Object.keys( this.params.actions ) ) {
+            
+            var key = Object.keys( this.params.actions )[ i ];
+
+            if( this.params.keyStatus[ key ] ){
+
+                this.params.actions[ key ]();   
+                
+            }
+
+        }
+
+        this.context.clearRect( 0 , 0 , this.canvas.width , this.canvas.height );
+
+        this.update.call( this );
+
+        this.draw.call( this );
+
+    },
+
+    // 适应用户fps调整
+    initFps = function(){
+
+        var that = this;
+
+        if( this.fps != window.fps ){
+
+            clearInterval( this.innterval );          
+
+            this.innterval = setInterval( function(){
+
+                if( initFps.call( that ) ) return;
+
+                listener.call( that );
+
+            } , 1000 / ( this.fps = window.fps ) );
+
+            return true;
+        }
+
+        return false;
     }
 
     YFGame.fn = YFGame.prototype = {
@@ -27,6 +73,8 @@
             this.canvas = canvas;
             this.context = context;
 
+            this.fps = window.fps = window.fps || 60; // 帧数
+
             this.params = {
 
                 keyStatus:{},
@@ -38,25 +86,13 @@
             var params = this.params;
 
             // 监听器
-            setInterval( function(){
-
-                for (var i in  Object.keys( params.actions ) ) {
-
-                    var key = Object.keys( params.actions )[ i ];
-
-                    if( params.keyStatus[ key ] ){
-
-                        params.actions[ key ]();   
-                        
-                    }
-
-                }
-
-                that.context.clearRect( 0 , 0 , that.canvas.width , that.canvas.height );
-
-                that.draw();
+            this.innterval = setInterval( function(){
                 
-            } , 1000/60 );
+                if( initFps.call( that ) ) return;
+                    
+                listener.call( that );
+                
+            } , 1000/window.fps );
 
             // events
             window.addEventListener( 'keydown' , function( e ){
@@ -98,7 +134,21 @@
             return this;
         },
 
-        // 在外部重写draw function
+        collision:function( a , b ){
+
+            //!(B.max(x) < A.min(x) || B.min(x) > A.max(x) || B.max(y) < A.min(y) || B.min(y) > A.max(y))
+            if( b.x + b.img.width < a.x || b.x > a.x+a.img.width || b.y + b.img.height < a.y || b.y > a.y + a.img.height )
+                return false;
+
+            return true;
+
+
+        },
+        
+        // 在外部重写draw、update function\
+        update:function(){
+
+        },
         draw:function( ){
 
         }

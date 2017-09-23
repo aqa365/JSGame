@@ -1,75 +1,28 @@
 <html>
     <head><title></title></head>
     <body>
-        <canvas id="idcanvas" width="400px" height="200px" style="border:1px solid #333"></canvas>
+        <canvas id="idcanvas" width="400px" height="300px" style="border:1px solid #333"></canvas>
+        <br/><br/>
+        <input type="range" id="rangeFps"/><span id="fpsValue"></span>
     </body>
+    <script src="main/common.js"></script>
     <script src="main/game.js"></script>
+    <script src="main/paddle.js"></script>
+    <script src="main/bullet.js"></script>
+    <script src="main/brick.js"></script>
+    <script src="main/main.js"></script>
     <script type="text/javascript">
+        var range = el( '#rangeFps' );
+        var fpsValue = el( '#fpsValue' );
 
-        var log = console.log.bind( console );
+        range.value = window.fps;
+        fpsValue.innerText = window.fps + "fps";
 
-        var g = new YFGame( '#idcanvas' );  
+        range.addEventListener( 'input' , function(){
 
-        var paddle = {
-            x:200,
-            y:150,
-            speed:5,
-            img:g.loadImg( 'images/1.jpg' ),
-            moveLeft:function(){
-                this.x -= this.speed;   
-            },
-            moveRight:function(){
-                this.x += this.speed; 
-            },
-        }     
-
-        var bullet = {
-            x:270,
-            y:120,
-            speedX:10,
-            speedY:10,
-            fired:false,
-            img:g.loadImg( 'images/fire.png' ),
-            fire:function(){
-                this.fired = true;
-            },
-            move:function(){
-                if( !this.fired )return;
-                
-                if( this.x<=0||this.x>=400 ){
-                    this.speedX*=-1;
-                }
-                if( this.y<=0||this.y>200 ){
-                    this.speedY*=-1;
-                }
-
-                this.x+=this.speedX;
-                this.y+=this.speedY;
-            },
-        }
-
-        // events
-        g.registerKey( 'a' ,function(){ 
-            paddle.moveLeft();
-        } );
-
-        g.registerKey( 'd' ,function(){            
-            paddle.moveRight();
-        } );
-
-        g.registerKey( 'f' ,function(){
-            bullet.fire();
-        })
-
-        g.draw = function(){
-
-            g.drawImg( paddle ).drawImg( bullet );
-            bullet.move();
-
-        }
-
-        log( g );
-        
-
+            if( this.value <= 0 ) return;
+            fpsValue.innerText = (window.fps = this.value) + 'fps';
+            
+        } )
     </script>
 </html>
