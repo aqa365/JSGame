@@ -43,7 +43,7 @@
 
             if( !this.fired )return;
             
-            if( this.x <= 0||this.x >= 400 ){
+            if( this.x <= 0||this.x > 400 ){
                 
                 this.speedX*=-1;
 
@@ -60,8 +60,7 @@
         },
         // 反弹
         rebound:function(){
-
-            this.speedX *= -1;
+            
             this.speedY *= -1;
 
         }

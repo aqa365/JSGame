@@ -4,7 +4,7 @@
     
     var paddle = new Paddle( { x:120 , y:250 , speed:7 , img:g.loadImg( 'images/1.jpg' ) } );
 
-    var bullet = new Bullet( { x:190 , y:227 , speedX:7 , speedY:12 , img:g.loadImg( 'images/fire.png' ) } );
+    var bullet = new Bullet( { x:190 , y:227 , speedX:5 , speedY:5 , img:g.loadImg( 'images/fire.png' ) } );
 
     var brickImg = g.loadImg( 'images/brick.png' );
     brickImg.width=100;
