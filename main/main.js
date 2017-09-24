@@ -4,12 +4,12 @@
     
     var paddle = new Paddle( { x:120 , y:250 , speed:7 , img:g.loadImg( 'images/1.jpg' ) } );
 
-    var bullet = new Bullet( { x:190 , y:219 , speedX:7 , speedY:12 , img:g.loadImg( 'images/fire.png' ) } );
+    var bullet = new Bullet( { x:190 , y:227 , speedX:7 , speedY:12 , img:g.loadImg( 'images/fire.png' ) } );
 
     var brickImg = g.loadImg( 'images/brick.png' );
     brickImg.width=100;
     brickImg.height=50;
-    var jiange = 27,x = 40;
+    var jiange = 37,x = 45;
     //[ [jiange,0] , [ x+jiange,0 ] , [ x*2+jiange,0 ] , [ x*3+jiange,0 ] ]
     var bricksOption = [];
     for( var i = 0; i < 4; i++ ){
