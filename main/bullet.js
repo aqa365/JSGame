@@ -28,8 +28,6 @@
 
             }
 
-
-
             return this;
         },
 
@@ -43,19 +41,42 @@
 
             if( !this.fired )return;
             
-            if( this.x <= 0||this.x > 400 ){
+            if( this.x <= 0||this.x + this.img.width > 400 ){
                 
-                this.speedX*=-1;
+                this.speedX *= -1;
 
             }
-            if( this.y <= 0||this.y > 300 ){
+            if( this.y <= 0||this.y + this.img.height > 300 ){
 
-                this.speedY*=-1;
+                this.speedY *= -1;
 
             }
 
-            this.x+=this.speedX;
-            this.y+=this.speedY;
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+        },
+        // 未发射之前应该跟随 paddle
+        follow:function( x ){
+            if( x < 0 )
+                x = 0;
+            if( x > 400 - this.img.width )
+                x = 400 - this.img.width;
+
+            this.x = x;
+        },
+        followLeft:function( speed ){
+
+            if( this.fired ) return;
+
+            this.follow( this.x - speed );
+            
+        },
+        followRight:function( speed ){
+
+            if( this.fired ) return;
+
+            this.follow( this.x + speed );
 
         },
         // 反弹

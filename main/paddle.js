@@ -27,16 +27,26 @@
 
             return this;
         },
+        move:function( x ){
 
+            if( x < 0  )
+                x = 0;
+
+            else if( x > 400 - this.img.width )
+                x = 400 - this.img.width;
+
+            this.x = x;
+
+        },
         moveLeft:function(){
 
-            this.x -= this.speed;  
+            this.move( this.x - this.speed );
 
         },
 
         moveRight:function(){
 
-            this.x += this.speed; 
+            this.move( this.x + this.speed )
             
         }
 

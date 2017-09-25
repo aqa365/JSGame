@@ -16,12 +16,10 @@
                 this.y = 0;
                 
                 this.life = 1;
-
-                this.coordinates = []; // 坐标
     
                 this.img = undefined;
 
-                this.state = true; // 死亡状态
+                this.actives = true; // 死亡状态
     
                 for (var key in params) {
     
@@ -29,21 +27,20 @@
     
                 }
                 
-                if( this.coordinates.length <= 0 ) return this;
 
-                var bricks = [];
-
-                for( var i in this.coordinates ){
-                    var item = this.coordinates[ i ];
-                    bricks.push( new Brick( { x:item[ 0 ] , y:item[ 1 ] , img:this.img  } ) );
-                }
-
-                return bricks;
+                return this;
             },
 
             kill:function(){
 
-                this.state = false;
+                if( (this.life -= 1) <= 0 )
+                    this.actives = false;
+
+            },
+
+            isDie:function(){
+
+                return this.actives;
 
             }
 
