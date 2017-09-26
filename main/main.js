@@ -78,14 +78,14 @@
     g.registerKey( 'a' ,function(){ 
 
         paddle.moveLeft();
-        bullet.followLeft( paddle.speed );
+        bullet.followLeft( paddle.speed , paddle.x > 0 );
 
     } );
 
     g.registerKey( 'd' ,function(){   
 
         paddle.moveRight();
-        bullet.followRight( paddle.speed );
+        bullet.followRight( paddle.speed , paddle.x < 400 - paddle.img.width );
 
     } );
 

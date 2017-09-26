@@ -65,16 +65,24 @@
 
             this.x = x;
         },
-        followLeft:function( speed ){
+        followLeft:function( speed , isMove ){
 
             if( this.fired ) return;
+
+            if( !isMove ) return;
+
+            log( '向左' )
 
             this.follow( this.x - speed );
             
         },
-        followRight:function( speed ){
+        followRight:function( speed , isMove ){
 
             if( this.fired ) return;
+
+            if( !isMove ) return;
+
+            log( '向右' )
 
             this.follow( this.x + speed );
 
